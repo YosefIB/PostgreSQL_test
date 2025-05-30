@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>הצגת נתונים מטבלת PostgreSQL</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: right;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #ddd;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>נתונים מטבלת yosef</h1>
+        <div id="data"></div>
+        <p>הנתונים נטענים משרת Node.js המשתמש ב-Express.js וב-PostgreSQL.</p>
+    <form action="newData">
+        <label for="name">enter your name</label>
+        <input type="text" id="name" name="name" required>
+        <label for="email">enter your email</label>
+        <input type="email" id="email" name="email" required>
+
+    </form>
+    </div>
+
+    <script>
+        async function fetchData() {
+            try {
+                const response = await fetch('/api/data');
+                const data = await response.json();
+                displayData(data);
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('data').innerHTML = 'שגיאה בטעינת הנתונים';
+            }
+        }
+
+        function displayData(data) {
+            if (data.length === 0) {
+                document.getElementById('data').innerHTML = 'אין נתונים להצגה';
+                return;
+            }
+
+            const table = document.createElement('table');
+            
+            // Create header
+            const headers = Object.keys(data[0]);
+            console.log(headers)
+            const headerRow = document.createElement('tr');
+            headers.forEach(header => {
+                const th = document.createElement('th');
+                th.textContent = header;
+                headerRow.appendChild(th);
+            });
+            table.appendChild(headerRow);
+
+            // Create data rows
+            console.log(data)
+            data.forEach(row => {
+                const tr = document.createElement('tr');
+                headers.forEach(header => {
+                    const td = document.createElement('td');
+                    td.textContent = row[header];
+                    tr.appendChild(td);
+                });
+                console.log(table)
+                table.appendChild(tr);
+            });
+
+            document.getElementById('data').innerHTML = '';
+            document.getElementById('data').appendChild(table);
+        }
+
+        // Load data when page loads
+        fetchData();
+    </script>
+</body>
+</html>
