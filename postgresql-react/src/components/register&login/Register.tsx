@@ -57,7 +57,7 @@ const Register: React.FC = () => {
     if (!validateForm()) return;
 
     try {
-      const response = await fetch("http://localhost:3000/api/register", {
+      const response = await fetch("http://localhost:3001/api/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
