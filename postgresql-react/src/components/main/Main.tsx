@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Container, Card, Button, Navbar, Nav } from 'react-bootstrap';
 import './Main.css';
 
 interface User {
@@ -21,14 +22,27 @@ const Main: React.FC = () => {
         setUser(JSON.parse(userStr));
     }, [navigate]);
 
+    const handleLogout = () => {
+        localStorage.removeItem('user');
+        navigate('/login');
+    };
+
     return (
-        <div className="main-container">
-            <h1>Welcome, {user?.firstName}!</h1>
-            <div className="content">
-                <p>You are now logged into the Food X Change system.</p>
-                {/* Add your main content here */}
-            </div>
-        </div>
+        <>
+           <Container>
+                <Card>
+                    <Card.Body>
+                        <Card.Title className="mb-4">
+                            Welcome, {user?.firstName}!
+                        </Card.Title>
+                        <Card.Text>
+                            You are now logged into the Food X Change system.
+                            This is your main dashboard where you can manage your trading activities.
+                        </Card.Text>
+                    </Card.Body>
+                </Card>
+            </Container>
+        </>
     );
 };
 
