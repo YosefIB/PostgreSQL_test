@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Form, Button, Alert, Card } from "react-bootstrap";
-import "./Auth.css";
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
