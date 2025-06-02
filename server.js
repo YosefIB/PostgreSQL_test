@@ -2,6 +2,7 @@ const express = require('express');
 const { Pool } = require('pg');
 const cors = require('cors');
 const app = express();
+const path = require("path");
 const port = 3001;
 
 // PostgreSQL connection configuration
@@ -16,9 +17,14 @@ const pool = new Pool({
 // Middleware
 app.use(cors()); // Enable CORS for all routes
 app.use(express.json());
+app.use(express.static(path.join(__dirname, "postgresql-react/build")));
 
 // Serve static files from the public directory
 app.use(express.static('public'));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "postgresql-react/build", "index.html"));
+});
 
 // Test database connection
 pool.connect()
